@@ -1,0 +1,110 @@
+{
+ "axes": {
+  "constants": {
+   "BLUR_SIGMA": 16.0,
+   "DETAIL_SIGMA": 1.0,
+   "GREY_S": 0.14,
+   "HUE_BINS": 12,
+   "INK_V": 0.18,
+   "ORIENT_BINS": 12,
+   "PAPER_V": 0.85,
+   "PROBES": 320,
+   "SOFT_GRAD": 0.04
+  },
+  "feature_doc": {
+   "bilateral": "Pearson correlation between the image and its own mirror, measured on a sigma=16 blurred value image. High = the layout mirrors. This is the fork detector. NOTE it is mathematically INVARIANT under mirroring -- pearson(mirror(I), mirror(mirror(I))) == pearson(mirror(I), I) -- so it measures whether a layout IS mirror-symmetric, not whether a change made it so. Validating it therefore requires forcing a seam, not flipping the image.",
+   "bimodality": "Fisher separation of a 2-cluster fit on the (V, S) plane. The corpus is bimodal: dark+hot or bright+flat, never a pastel mid-tone. 0 = one cloud.",
+   "edge_density": "mean Sobel gradient magnitude / 255. Line-work density.",
+   "fine_detail": "log10(high-frequency energy / value std). The v1 version of this spanned five orders of magnitude; this is bounded.",
+   "hue_entropy": "Shannon entropy of a HUE_BINS hue histogram over chromatic pixels, / log(HUE_BINS). High = many hues present.",
+   "ink_frac": "fraction of pixels darker than INK_V. High = drawn plate, low = open ground.",
+   "mean_sat": "mean chroma magnitude (max-min). Blind to hue by construction.",
+   "mean_v": "mean value. The corpus splits dark-ground and bright-flat; this is the first axis that sees it.",
+   "orient_evenness": "Shannon entropy of an ORIENT_BINS gradient-orientation histogram over mid-strength gradients only, / log(ORIENT_BINS). Measured range on the corpus is 0.949-1.000 -- this corpus is orientationally ISOTROPIC, there is no dominant ruling direction in any of the 48 images. It therefore carries almost no in-corpus discriminative power and is kept as an out-of-distribution tripwire, not as a family axis: a buyer uploads a photograph with one dominant light direction and this drops immediately.",
+   "paper_frac": "fraction brighter than PAPER_V. Non-zero only on the cream drafting plates.",
+   "soft_frac": "fraction of pixels whose gradient magnitude is below SOFT_GRAD, i.e. flat areas. High = flat colour fills, low = line-work everywhere.",
+   "v_contrast": "std of value. Low means flat fill, high means engraved tonal gradation."
+  },
+  "feature_names": [
+   "ink_frac",
+   "paper_frac",
+   "mean_v",
+   "v_contrast",
+   "mean_sat",
+   "hue_entropy",
+   "bimodality",
+   "edge_density",
+   "fine_detail",
+   "soft_frac",
+   "orient_evenness",
+   "bilateral"
+  ],
+  "images": {
+   "37.jpg": {
+    "bilateral": -0.32270097732543945,
+    "bimodality": 3.497480045238862,
+    "edge_density": 0.603243887424469,
+    "fine_detail": -0.68815046873234,
+    "hue_entropy": 0.5852203689483071,
+    "ink_frac": 0.272978515625,
+    "mean_sat": 0.7242645025253296,
+    "mean_v": 0.3364301025867462,
+    "orient_evenness": 0.9974348992395649,
+    "paper_frac": 0.085537109375,
+    "soft_frac": 0.1047265625,
+    "v_contrast": 0.2456616461277008
+   }
+  },
+  "known_limits": {
+   "approaches_tried_and_failed": [
+    {
+     "axis": "tanh(1.6*fisher(chroma)) + tanh(2.0*|warmth_r - warmth_l|)",
+     "name": "chroma Fisher on the two halves",
+     "result": "inverted. seam family 0.097 (n=8) vs everything else 0.208 -- separation 0.47x",
+     "structural_cause": "cyan and magenta have near-equal luminance AND near-equal chroma magnitude; only hue differs. Any chroma-magnitude or luminance measure is blind to the signature feature."
+    },
+    {
+     "axis": "tanh(1.4*opponent_fisher) * (1 - Bhattacharyya(hue_hist_L, hue_hist_R, 12 bins))",
+     "name": "hue-opponent axis times hue-histogram overlap",
+     "result": "weak. seam mean 0.180 vs other 0.127, separation 1.41x. Issue 8 -- the clearest hard-seam image in the corpus by eye -- scored -0.054, dead last of all 48.",
+     "structural_cause": "the opponent axis does see the split (issue 8's raw opponent score of 1.50 was the highest in the corpus); the overlap multiplier destroys it, and the multiplier is itself buggy -- it returned ~1.056, which is impossible for properly normalised histograms."
+    },
+    {
+     "axis": "tanh(grad_in_seam_band / grad_outside_band)",
+     "name": "local gradient ratio across a 3% centre band",
+     "result": "tried on luminance, saturation and hue-derivative maps, each against its own rolled-25%-sideways negative control. No map separated the hard-seam sets (FORK, SUPERBRAIN) from MANDALA8 / LIQ / ROSE. The FORK scored 0.65x -- weaker than a random column.",
+     "structural_cause": "the seam is a global compositional property (cold half vs hot half), not a local edge. And the same near-equal-luminance problem applies."
+    }
+   ],
+   "near_constant_axes_kept_on_purpose": {
+    "orient_evenness": "Measured 0.949-1.000 across all 48 images. Tested with four gating schemes (all gradients; mid-strength only; strong only; 8 and 12 bins) and the relative span never exceeded 0.06. The corpus is orientationally isotropic: no image has a dominant ruling direction. Shipping it as a family axis would be dishonest, so it is kept only as an out-of-distribution tripwire with its measured range recorded here. See tools/validate_styleprint.py for the `ruled` control that proves it does move when a single edge direction is imposed."
+   },
+   "retracted_claims": [
+    "v1's |warmth| column reading +0.99 / +0.83 on the hard-seam sets did NOT reproduce. Correct per-file values are 0.00-0.16. Retracted, not tuned.",
+    "v1's sat_gap emptiness test used an absolute bin count of 0.004, which no bin in an image with thousands of pixels can ever fall below. It could never fire. Replaced by bimodality."
+   ],
+   "seam_palette_is_not_recoverable": {
+    "claim": "No pixel statistic can tell you a fork is cold on the left and hot on the right.",
+    "consequence": "A fork cannot be obtained from a prompt. It can only be obtained from a reference image. That is the product argument for reference-anchored generation, and it is a measurement rather than an opinion.",
+    "reason": "A bilaterally mirrored fork swaps hue across the seam by construction, so the left and right hue histograms are near-identical BY DESIGN. The eye reads cold-versus-warm as a labelling; the underlying distributions genuinely overlap. Any measure keyed on hue-mass difference is measuring the mirror, not the split."
+   },
+   "status": "measured negative results, deliberately not shipped as axes",
+   "why_this_exists": "The fork is the series' signature and the thing a buyer most needs to reproduce, so it is worth being precise about which half of it is measurable. It is a LAYOUT property plus a PALETTE property. The layout half is recoverable (see the bilateral axis). The palette half is not."
+  },
+  "version": 2
+ },
+ "corpus_verdict_file": "verification-report.json",
+ "exit_code": 0,
+ "facet": "F3",
+ "generated_by": "amph-comic/tools/artifact_publish.py",
+ "issue": 37,
+ "module_file": "styleprint.py",
+ "module_repo": "BoozLee/amph-styleprint-validate",
+ "module_repo_url": "https://github.com/BoozLee/amph-styleprint-validate",
+ "module_source_sha256": "0ad8c288b666539cdd4594035193060846bccf684b413fdc2ae5375f08e95c58",
+ "note": "this file carries the measured axes only. The verification verdict is corpus-level and lives in verification-report.json; there is deliberately no per-issue verdict, because a single-image validator cannot produce a meaningful one.",
+ "plate": "art/37.jpg",
+ "plate_sha256": "27db9836d819afc833c06ff7b3a56a11fe81badf7436ac1bedbf427cf34178e6",
+ "recipe": "styleprint.py --dir <plate>  (same run the corpus verdict covers)",
+ "role": "fingerprint as measured by the F3 corpus run"
+}

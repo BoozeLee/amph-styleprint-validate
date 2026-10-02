@@ -1,0 +1,197 @@
+{
+ "controls": {
+  "blur": "ok",
+  "blur.bimodality": "stable +0.8412",
+  "blur.edge_density": "down -0.7359",
+  "blur.fine_detail": "down -0.8907",
+  "blur.mean_v": "stable +0.0667",
+  "brighten": "ok",
+  "brighten.bilateral": "stable +0.0000",
+  "brighten.ink_frac": "down -0.9163",
+  "brighten.mean_v": "up +0.4440",
+  "brighten.orient_evenness": "stable +0.0100",
+  "desaturate": "ok",
+  "desaturate.bilateral": "stable +0.0001",
+  "desaturate.edge_density": "stable +0.0007",
+  "desaturate.hue_entropy": "down -0.4969",
+  "desaturate.mean_sat": "down -0.7253",
+  "rotate90": "ok",
+  "rotate90.edge_density": "stable +0.0001",
+  "rotate90.mean_v": "stable +0.0000",
+  "rotate90.orient_evenness": "stable +0.0001",
+  "rotate90.paper_frac": "stable +0.0000",
+  "ruled": "ok",
+  "ruled.bilateral": "stable +0.0321",
+  "ruled.orient_evenness": "down -0.1390",
+  "seam": "ok",
+  "seam.bilateral": "up +1.3227",
+  "seam.edge_density": "stable +0.0069",
+  "seam.mean_v": "stable +0.0426",
+  "shrink": "ok",
+  "shrink.bilateral": "stable +0.0008",
+  "shrink.fine_detail": "down -0.5209",
+  "shrink.mean_v": "stable +0.0054",
+  "textured": "ok",
+  "textured.bilateral": "stable +0.2130",
+  "textured.edge_density": "up +0.3556",
+  "textured.fine_detail": "up +0.1603",
+  "textured.mean_v": "stable +0.0699"
+ },
+ "exit_code": 0,
+ "facet": "F3",
+ "failing_lines": [],
+ "generated_by": "amph-comic/tools/artifact_publish.py",
+ "module_file": "validate_styleprint.py",
+ "module_repo": "BoozLee/amph-styleprint-validate",
+ "module_repo_url": "https://github.com/BoozLee/amph-styleprint-validate",
+ "module_source_sha256": "207e0faeefb6387571133455847f7ea8b92e13bd9dce1aff75768d7df6f4bfe2",
+ "plate_count": 13,
+ "plates": {
+  "01": {
+   "plate": "art/01.jpg",
+   "plate_sha256": "f60f8c24ca0122cacbba51de02eebc22006053e9a533ab4a46aef20a377d60b2",
+   "title": "The Long Spiral"
+  },
+  "03": {
+   "plate": "art/03.jpg",
+   "plate_sha256": "aa141265df29cdbdfce2ec3702028954780f42768d82f56b8b150ae45da0c3c8",
+   "title": "Ruins in the Funnel"
+  },
+  "04": {
+   "plate": "art/04.jpg",
+   "plate_sha256": "0bc1ac1ac322521d39a74add2de6fe4cac6fe2ac447776b799db3a440afed689",
+   "title": "The Only Door"
+  },
+  "09": {
+   "plate": "art/09.jpg",
+   "plate_sha256": "a87035bffc836ac429a0b06b4d0d2eacaa9ff312cec2f3181b1368884cc04e0c",
+   "title": "Forged"
+  },
+  "11": {
+   "plate": "art/11.jpg",
+   "plate_sha256": "552c6abaffdb391c0c9780f9e0d3a29523d44dbbb913c07976a38221b385bacb",
+   "title": "Forge of Vertebrae"
+  },
+  "13": {
+   "plate": "art/13.jpg",
+   "plate_sha256": "43102900dd57205442dd1b35674a20160892914c61924009387410df36332b2d",
+   "title": "Three Wings"
+  },
+  "15": {
+   "plate": "art/15.jpg",
+   "plate_sha256": "4e4b7b7e03bb413300a67efcee1c4d04532a0728b576e432129b1e51acb76c06",
+   "title": "The Long Light"
+  },
+  "21": {
+   "plate": "art/21.jpg",
+   "plate_sha256": "19d923d531836c43d1e945c97c4ba897cde078bb9481248757379c89e388b89d",
+   "title": "Chapter One"
+  },
+  "37": {
+   "plate": "art/37.jpg",
+   "plate_sha256": "27db9836d819afc833c06ff7b3a56a11fe81badf7436ac1bedbf427cf34178e6",
+   "title": "The Suited One"
+  },
+  "38": {
+   "plate": "art/38.jpg",
+   "plate_sha256": "67e6d826879d7216b348fb1b86fcaa84a45e2800bac618dcd00f791afb8988b8",
+   "title": "The Hooded One"
+  },
+  "39": {
+   "plate": "art/39.jpg",
+   "plate_sha256": "5248ebacd0322984da90562bd3b8fde90a2e45d576b3f6342faf2079ff9c893a",
+   "title": "The Green Eye"
+  },
+  "40": {
+   "plate": "art/40.jpg",
+   "plate_sha256": "17ebe87b8c8cfbcc4d7d9b1c52bdc4f87c01f50f6e6edc3d11aa27b0127721b1",
+   "title": "One Colour"
+  },
+  "41": {
+   "plate": "art/41.jpg",
+   "plate_sha256": "22b4e5a2ade31d707fde68b446e529b8c969d80061042c3a11d32001a50b49db",
+   "title": "The Empty Frame"
+  }
+ },
+ "spread": {
+  "bilateral": {
+   "max": "0.9999",
+   "min": "-0.3227",
+   "rel": 1.323,
+   "status": "ok"
+  },
+  "bimodality": {
+   "max": "4.7617",
+   "min": "2.1823",
+   "rel": 0.542,
+   "status": "ok"
+  },
+  "edge_density": {
+   "max": "0.9908",
+   "min": "0.1608",
+   "rel": 0.838,
+   "status": "ok"
+  },
+  "fine_detail": {
+   "max": "-0.4102",
+   "min": "-0.7748",
+   "rel": 0.471,
+   "status": "ok"
+  },
+  "hue_entropy": {
+   "max": "0.9242",
+   "min": "0.4969",
+   "rel": 0.462,
+   "status": "ok"
+  },
+  "ink_frac": {
+   "max": "0.9163",
+   "min": "0.1696",
+   "rel": 0.815,
+   "status": "ok"
+  },
+  "mean_sat": {
+   "max": "0.7253",
+   "min": "0.3933",
+   "rel": 0.458,
+   "status": "ok"
+  },
+  "mean_v": {
+   "max": "0.4649",
+   "min": "0.1093",
+   "rel": 0.765,
+   "status": "ok"
+  },
+  "orient_evenness": {
+   "max": "0.9998",
+   "min": "0.9684",
+   "rel": 0.031,
+   "status": "ok"
+  },
+  "paper_frac": {
+   "max": "0.0967",
+   "min": "0.0006",
+   "rel": 0.994,
+   "status": "ok"
+  },
+  "soft_frac": {
+   "max": "0.5287",
+   "min": "0.0396",
+   "rel": 0.925,
+   "status": "ok"
+  },
+  "v_contrast": {
+   "max": "0.3008",
+   "min": "0.0863",
+   "rel": 0.713,
+   "status": "ok"
+  }
+ },
+ "thresholds_unchanged": {
+  "desaturate.bilateral": 0.1,
+  "desaturate.edge_density": 0.12,
+  "note": "the desaturate control previously failed because it greyed with mean(R,G,B) while edge_density is Sobel on max(R,G,B). Fixed to max; no threshold was loosened."
+ },
+ "verdict": "PASS  spread ok / controls ok",
+ "why_corpus_level": "TEST 1 SPREAD reports an axis dead when the run contains one image, because spread across a single sample is zero by definition. This validator is meaningful only across the set of plates it was assigned, so its verdict is published once for all of them rather than per issue."
+}
